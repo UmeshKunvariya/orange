@@ -1,13 +1,12 @@
-import { site } from "@/config/site";
+import { contacts, site, telLink, whatsappContacts } from "@/config/site";
 import { Container } from "./ui/Section";
 import Reveal from "./ui/Reveal";
 import WhatsAppButton from "./ui/WhatsAppButton";
 import { PhoneIcon, PinIcon } from "./ui/Icons";
 
-/** "+91 87580 59160" -> "+918758059160" for tel: links */
-const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
-
 export default function CTA() {
+  const multipleWhatsApp = whatsappContacts.length > 1;
+
   return (
     <section id="contact" className="scroll-mt-24 bg-canvas py-20 sm:py-28">
       <Container>
@@ -31,43 +30,59 @@ export default function CTA() {
               charge for the conversation.
             </p>
 
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <WhatsAppButton size="lg" className="w-full sm:w-auto">
-                Message us on WhatsApp
-              </WhatsAppButton>
-              <a
-                href={telHref(site.phones[0])}
-                className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-line-warm bg-white px-7 py-4 text-base font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:text-brand sm:w-auto"
-              >
-                <PhoneIcon className="size-[18px]" />
-                Call us
-              </a>
+            {/* One WhatsApp button per number — either one reaches us. */}
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+              {whatsappContacts.map((contact, i) => (
+                <WhatsAppButton
+                  key={contact.intl}
+                  size="lg"
+                  number={contact.intl}
+                  variant={i === 0 ? "solid" : "outline"}
+                  className="w-full sm:w-auto"
+                >
+                  {multipleWhatsApp ? contact.display : "Message us on WhatsApp"}
+                </WhatsAppButton>
+              ))}
             </div>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-x-10 gap-y-4 border-t border-line-warm pt-8 sm:flex-row">
-              <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-                <span className="grid size-9 place-items-center rounded-lg bg-brand text-white">
+            {multipleWhatsApp && (
+              <p className="mt-4 text-sm text-muted">
+                Both numbers are on WhatsApp — message whichever you like.
+              </p>
+            )}
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-x-12 gap-y-5 border-t border-line-warm pt-8 sm:flex-row sm:items-start">
+              <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:items-start sm:gap-3">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand text-white">
                   <PhoneIcon className="size-[18px]" />
                 </span>
-                <span className="flex flex-col text-sm font-semibold text-ink">
-                  {site.phones.map((phone) => (
+                <span className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted">
+                    Call
+                  </span>
+                  {contacts.map((contact) => (
                     <a
-                      key={phone}
-                      href={telHref(phone)}
-                      className="transition-colors hover:text-brand"
+                      key={contact.intl}
+                      href={telLink(contact.intl)}
+                      className="text-sm font-semibold text-ink transition-colors hover:text-brand"
                     >
-                      {phone}
+                      {contact.display}
                     </a>
                   ))}
                 </span>
               </div>
 
-              <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-                <span className="grid size-9 place-items-center rounded-lg bg-brand text-white">
+              <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:items-start sm:gap-3">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand text-white">
                   <PinIcon className="size-[18px]" />
                 </span>
-                <span className="text-sm font-semibold text-ink">
-                  {site.location}
+                <span className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted">
+                    Visit
+                  </span>
+                  <span className="text-sm font-semibold text-ink">
+                    {site.location}
+                  </span>
                 </span>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-import { caseStudy, site, solutions } from "@/config/site";
+import { caseStudy, contacts, site, solutions } from "@/config/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -87,7 +87,7 @@ const jsonLd = {
     addressCountry: "IN",
   },
   slogan: site.slogan,
-  telephone: site.phones,
+  telephone: contacts.map((c) => `+${c.intl}`),
   knowsAbout: solutions.map((s) => s.title),
   hasOfferCatalog: {
     "@type": "OfferCatalog",

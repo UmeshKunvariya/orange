@@ -28,17 +28,20 @@ export default function WhatsAppButton({
   size = "md",
   variant = "solid",
   message,
+  number,
   className = "",
 }: {
   children?: React.ReactNode;
   size?: Size;
   variant?: Variant;
   message?: string;
+  /** Dial-format number. Defaults to the primary WhatsApp contact. */
+  number?: string;
   className?: string;
 }) {
   return (
     <a
-      href={whatsappLink(message)}
+      href={whatsappLink(message, number)}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:-translate-y-0.5 ${sizes[size]} ${variants[variant]} ${className}`}

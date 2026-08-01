@@ -1,9 +1,16 @@
-import { caseStudy, nav, site, solutions, whatsappLink } from "@/config/site";
+import {
+  caseStudy,
+  contacts,
+  nav,
+  site,
+  solutions,
+  telLink,
+  whatsappLink,
+  whatsappContacts,
+} from "@/config/site";
 import { Container } from "./ui/Section";
 import Logo from "./Logo";
 import { PhoneIcon, PinIcon, WhatsAppIcon } from "./ui/Icons";
-
-const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
 
 export default function Footer() {
   return (
@@ -21,23 +28,26 @@ export default function Footer() {
             </p>
 
             <div className="mt-5 space-y-2.5">
-              <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-sm font-semibold text-brand transition-colors hover:text-brand-hover"
-              >
-                <WhatsAppIcon className="size-4" />
-                Chat with us on WhatsApp
-              </a>
-              {site.phones.map((phone) => (
+              {whatsappContacts.map((contact) => (
                 <a
-                  key={phone}
-                  href={telHref(phone)}
+                  key={contact.intl}
+                  href={whatsappLink(undefined, contact.intl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 text-sm font-semibold text-brand transition-colors hover:text-brand-hover"
+                >
+                  <WhatsAppIcon className="size-4" />
+                  WhatsApp {contact.display}
+                </a>
+              ))}
+              {contacts.map((contact) => (
+                <a
+                  key={contact.intl}
+                  href={telLink(contact.intl)}
                   className="flex items-center gap-2.5 text-sm text-body transition-colors hover:text-brand"
                 >
                   <PhoneIcon className="size-4 text-brand" />
-                  {phone}
+                  Call {contact.display}
                 </a>
               ))}
               <p className="flex items-center gap-2.5 text-sm text-body">

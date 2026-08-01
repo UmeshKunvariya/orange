@@ -21,20 +21,30 @@ were extracted from it programmatically:
 
 If the logo artwork ever changes, replace the files in `brand/` and re-crop.
 
-## WhatsApp number
+## Phone numbers
 
-Set in `src/config/site.ts`:
+Both business-card numbers are configured in `src/config/site.ts`:
 
 ```ts
-export const WHATSAPP_NUMBER = "918758059160";
+export const contacts = [
+  { display: "+91 87580 59160", intl: "918758059160", whatsapp: true },
+  { display: "+91 96645 46860", intl: "919664546860", whatsapp: true },
+] as const;
 ```
 
-This is the **first** number from the business card (+91 87580 59160). If the
-second number (+91 96645 46860) is the one on WhatsApp, change it here — format
-is country code + number, **no `+`, no spaces, no leading zero.**
+- `display` — what visitors read
+- `intl` — dial format for `wa.me` and `tel:` links: country code + number,
+  **no `+`, no spaces, no leading zero**
+- `whatsapp` — set to `false` if a number isn't on WhatsApp; it will still show
+  as a click-to-call number
 
-Every "Chat on WhatsApp" button on the site uses this one value. Both numbers
-appear as click-to-call links in the contact section and footer.
+**The first entry is the primary.** It's the number behind every "Chat on
+WhatsApp" button in the header, hero and mobile menu. Reorder the array to swap
+which number gets those.
+
+The contact section shows **one WhatsApp button per number**, so visitors can
+pick either. The footer lists both for WhatsApp and both for calling. Adding a
+third number is just another entry in the array — every section picks it up.
 
 ---
 
@@ -45,8 +55,8 @@ component to change what the site says.
 
 | What you want to change | Where in `site.ts` |
 |---|---|
-| WhatsApp number | `WHATSAPP_NUMBER` |
-| Tagline, slogan, phones, location, email | `site` |
+| Phone / WhatsApp numbers | `contacts` |
+| Tagline, slogan, location, email | `site` |
 | Navigation links | `nav` |
 | Hero pills (AI Automation, etc.) | `focusAreas` |
 | The 10 solution cards | `solutions` |

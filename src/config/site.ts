@@ -6,16 +6,38 @@
  * taken from the official Orange Solutions business card.
  */
 
-// WhatsApp target: country code + number, no "+", no spaces, no leading zero.
-// Currently the first number from the business card (+91 87580 59160).
-export const WHATSAPP_NUMBER = "918758059160";
+/**
+ * Both business-card numbers. `display` is what visitors read; `intl` is the
+ * dial format used for wa.me and tel: links — country code + number, no "+",
+ * no spaces, no leading zero.
+ *
+ * The FIRST entry is the primary: it's the one behind every "Chat on WhatsApp"
+ * button in the header, hero and footer. Reorder this array to switch which
+ * number takes those. Set `whatsapp: false` on an entry that isn't on WhatsApp
+ * — it will still appear as a click-to-call number.
+ */
+export const contacts = [
+  { display: "+91 87580 59160", intl: "918758059160", whatsapp: true },
+  { display: "+91 96645 46860", intl: "919664546860", whatsapp: true },
+] as const;
 
 // Message pre-filled in WhatsApp when someone taps a chat button.
 const WHATSAPP_MESSAGE =
   "Hi Orange Solutions! I'd like to discuss an AI solution for my business.";
 
-export const whatsappLink = (message: string = WHATSAPP_MESSAGE) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+/** Numbers that actually accept WhatsApp, in display order. */
+export const whatsappContacts = contacts.filter((c) => c.whatsapp);
+
+/** Primary WhatsApp number — used by the main call-to-action buttons. */
+export const WHATSAPP_NUMBER = whatsappContacts[0]?.intl ?? contacts[0].intl;
+
+export const whatsappLink = (
+  message: string = WHATSAPP_MESSAGE,
+  number: string = WHATSAPP_NUMBER,
+) => `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+
+/** "+91 87580 59160" -> "tel:+918758059160" */
+export const telLink = (intl: string) => `tel:+${intl}`;
 
 export const site = {
   name: "Orange Solutions",
@@ -28,7 +50,6 @@ export const site = {
   url: "https://orange-solutions.vercel.app",
   location: "Junagadh, Gujarat",
   email: "", // optional — leave empty to hide the email link
-  phones: ["+91 87580 59160", "+91 96645 46860"],
 } as const;
 
 export const nav = [
