@@ -1,4 +1,4 @@
-import { whatsappLink } from "@/config/site";
+import { CONTACT_ANCHOR, whatsappLink } from "@/config/site";
 import { WhatsAppIcon } from "./Icons";
 
 type Size = "sm" | "md" | "lg";
@@ -23,28 +23,65 @@ const iconSizes: Record<Size, string> = {
   lg: "size-5",
 };
 
+const buttonClasses = (size: Size, variant: Variant, className: string) =>
+  `inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:-translate-y-0.5 ${sizes[size]} ${variants[variant]} ${className}`;
+
+/**
+ * Opens WhatsApp for one specific number. `number` is required on purpose —
+ * the numbers rank equally, so nothing may silently pick a default.
+ */
 export default function WhatsAppButton({
+  number,
   children = "Chat on WhatsApp",
   size = "md",
   variant = "solid",
   message,
-  number,
   className = "",
 }: {
+  number: string;
   children?: React.ReactNode;
   size?: Size;
   variant?: Variant;
   message?: string;
-  /** Dial-format number. Defaults to the primary WhatsApp contact. */
-  number?: string;
   className?: string;
 }) {
   return (
     <a
-      href={whatsappLink(message, number)}
+      href={whatsappLink(number, message)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:-translate-y-0.5 ${sizes[size]} ${variants[variant]} ${className}`}
+      className={buttonClasses(size, variant, className)}
+    >
+      <WhatsAppIcon className={iconSizes[size]} />
+      {children}
+    </a>
+  );
+}
+
+/**
+ * Single call-to-action used where only one button fits (header, hero). It
+ * scrolls to the contact section, which offers every number side by side,
+ * rather than committing the visitor to one of them.
+ */
+export function ContactButton({
+  children = "Get in touch",
+  size = "md",
+  variant = "solid",
+  className = "",
+  onNavigate,
+}: {
+  children?: React.ReactNode;
+  size?: Size;
+  variant?: Variant;
+  className?: string;
+  /** Only passed from client components (e.g. to close the mobile menu). */
+  onNavigate?: () => void;
+}) {
+  return (
+    <a
+      href={CONTACT_ANCHOR}
+      onClick={onNavigate}
+      className={buttonClasses(size, variant, className)}
     >
       <WhatsAppIcon className={iconSizes[size]} />
       {children}

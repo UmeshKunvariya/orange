@@ -7,14 +7,16 @@
  */
 
 /**
- * Both business-card numbers. `display` is what visitors read; `intl` is the
+ * Business contact numbers. `display` is what visitors read; `intl` is the
  * dial format used for wa.me and tel: links — country code + number, no "+",
  * no spaces, no leading zero.
  *
- * The FIRST entry is the primary: it's the one behind every "Chat on WhatsApp"
- * button in the header, hero and footer. Reorder this array to switch which
- * number takes those. Set `whatsapp: false` on an entry that isn't on WhatsApp
- * — it will still appear as a click-to-call number.
+ * These are EQUAL — neither is a fallback for the other. Every place a number
+ * is offered, all of them are offered together, styled identically. Array
+ * order controls reading order only, nothing else. Set `whatsapp: false` on an
+ * entry that isn't on WhatsApp; it stays as a click-to-call number.
+ *
+ * Adding a third number here propagates everywhere automatically.
  */
 export const contacts = [
   { display: "+91 87580 59160", intl: "918758059160", whatsapp: true },
@@ -25,15 +27,15 @@ export const contacts = [
 const WHATSAPP_MESSAGE =
   "Hi Orange Solutions! I'd like to discuss an AI solution for my business.";
 
-/** Numbers that actually accept WhatsApp, in display order. */
+/** Numbers that accept WhatsApp, in reading order. */
 export const whatsappContacts = contacts.filter((c) => c.whatsapp);
 
-/** Primary WhatsApp number — used by the main call-to-action buttons. */
-export const WHATSAPP_NUMBER = whatsappContacts[0]?.intl ?? contacts[0].intl;
+/** Anchor the header/hero CTAs point at, where every number is offered equally. */
+export const CONTACT_ANCHOR = "#contact";
 
 export const whatsappLink = (
+  number: string,
   message: string = WHATSAPP_MESSAGE,
-  number: string = WHATSAPP_NUMBER,
 ) => `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 
 /** "+91 87580 59160" -> "tel:+918758059160" */

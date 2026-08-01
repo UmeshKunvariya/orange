@@ -2,7 +2,7 @@ import Image from "next/image";
 import { caseStudy, focusAreas, site } from "@/config/site";
 import { Container } from "./ui/Section";
 import Reveal from "./ui/Reveal";
-import WhatsAppButton from "./ui/WhatsAppButton";
+import { ContactButton } from "./ui/WhatsAppButton";
 import { ArrowRightIcon } from "./ui/Icons";
 
 export default function Hero() {
@@ -70,9 +70,9 @@ export default function Hero() {
 
           <Reveal delay={250}>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <WhatsAppButton size="lg" className="w-full sm:w-auto">
+              <ContactButton size="lg" className="w-full sm:w-auto">
                 Start a conversation
-              </WhatsAppButton>
+              </ContactButton>
               <a
                 href="#work"
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-line-warm bg-white px-7 py-4 text-base font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:text-brand sm:w-auto"

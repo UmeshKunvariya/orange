@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { nav, site } from "@/config/site";
 import Logo from "./Logo";
-import WhatsAppButton from "./ui/WhatsAppButton";
+import { ContactButton } from "./ui/WhatsAppButton";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -54,9 +54,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <WhatsAppButton size="sm" className="hidden sm:inline-flex">
+          <ContactButton size="sm" className="hidden sm:inline-flex">
             Get in touch
-          </WhatsAppButton>
+          </ContactButton>
 
           <button
             type="button"
@@ -103,9 +103,13 @@ export default function Header() {
             </a>
           ))}
         </nav>
-        <WhatsAppButton size="md" className="mt-5 w-full">
+        <ContactButton
+          size="md"
+          className="mt-5 w-full"
+          onNavigate={() => setOpen(false)}
+        >
           Get in touch
-        </WhatsAppButton>
+        </ContactButton>
       </div>
     </header>
   );

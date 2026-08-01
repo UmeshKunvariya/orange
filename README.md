@@ -38,13 +38,20 @@ export const contacts = [
 - `whatsapp` — set to `false` if a number isn't on WhatsApp; it will still show
   as a click-to-call number
 
-**The first entry is the primary.** It's the number behind every "Chat on
-WhatsApp" button in the header, hero and mobile menu. Reorder the array to swap
-which number gets those.
+**The numbers rank equally.** Neither is a primary or a fallback:
 
-The contact section shows **one WhatsApp button per number**, so visitors can
-pick either. The footer lists both for WhatsApp and both for calling. Adding a
-third number is just another entry in the array — every section picks it up.
+- The contact section renders **one WhatsApp button per number, styled
+  identically** — same colour, same size, no visual preference
+- The footer lists every number for WhatsApp and every number for calling
+- Where only one button fits (header, hero, mobile menu), it says "Get in
+  touch" and **scrolls to the contact section** rather than committing the
+  visitor to one number
+- `WhatsAppButton` requires an explicit `number` prop, so no component can
+  silently default to one of them
+- JSON-LD advertises both to search engines
+
+Array order controls reading order only. Adding a third number is just another
+entry — every section picks it up automatically.
 
 ---
 

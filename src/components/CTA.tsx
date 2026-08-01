@@ -30,14 +30,14 @@ export default function CTA() {
               charge for the conversation.
             </p>
 
-            {/* One WhatsApp button per number — either one reaches us. */}
+            {/* One WhatsApp button per number, styled identically — the
+                numbers rank equally, so neither is visually preferred. */}
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-              {whatsappContacts.map((contact, i) => (
+              {whatsappContacts.map((contact) => (
                 <WhatsAppButton
                   key={contact.intl}
                   size="lg"
                   number={contact.intl}
-                  variant={i === 0 ? "solid" : "outline"}
                   className="w-full sm:w-auto"
                 >
                   {multipleWhatsApp ? contact.display : "Message us on WhatsApp"}
@@ -47,7 +47,7 @@ export default function CTA() {
 
             {multipleWhatsApp && (
               <p className="mt-4 text-sm text-muted">
-                Both numbers are on WhatsApp — message whichever you like.
+                Both numbers reach us on WhatsApp — use whichever you prefer.
               </p>
             )}
 

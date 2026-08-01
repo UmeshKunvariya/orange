@@ -31,7 +31,7 @@ export default function Footer() {
               {whatsappContacts.map((contact) => (
                 <a
                   key={contact.intl}
-                  href={whatsappLink(undefined, contact.intl)}
+                  href={whatsappLink(contact.intl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-sm font-semibold text-brand transition-colors hover:text-brand-hover"
