@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Orange Solutions — Website
 
-## Getting Started
+Marketing site for Orange Solutions. Single-page, light theme, no backend.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · deployed on Vercel.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Brand assets
+
+`brand/` holds the original business-card artwork. The web assets in `public/`
+were extracted from it programmatically:
+
+| File | What it is | Source |
+|---|---|---|
+| `public/logo.png` | Full horizontal lockup, transparent | cropped from `brand/Orange b.png` |
+| `public/mark.png` | Orange fruit mark only, transparent | cropped from `brand/Orange b.png` |
+| `public/icon.png` | 512×512 app icon / apple-touch icon | mark on brand canvas |
+| `public/og.jpg` | 1200×630 social share image | `brand/Orange f.png` |
+| `public/favicon.svg` | Vector favicon | hand-drawn approximation of the mark |
+
+If the logo artwork ever changes, replace the files in `brand/` and re-crop.
+
+## WhatsApp number
+
+Set in `src/config/site.ts`:
+
+```ts
+export const WHATSAPP_NUMBER = "918758059160";
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This is the **first** number from the business card (+91 87580 59160). If the
+second number (+91 96645 46860) is the one on WhatsApp, change it here — format
+is country code + number, **no `+`, no spaces, no leading zero.**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Every "Chat on WhatsApp" button on the site uses this one value. Both numbers
+appear as click-to-call links in the contact section and footer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Editing the content
 
-To learn more about Next.js, take a look at the following resources:
+**All text lives in one file: `src/config/site.ts`.** You never need to touch a
+component to change what the site says.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| What you want to change | Where in `site.ts` |
+|---|---|
+| WhatsApp number | `WHATSAPP_NUMBER` |
+| Tagline, slogan, phones, location, email | `site` |
+| Navigation links | `nav` |
+| Hero pills (AI Automation, etc.) | `focusAreas` |
+| The 10 solution cards | `solutions` |
+| AutoClub case study | `caseStudy` |
+| The 4 process steps | `process` |
+| Reliable / Efficient / Scalable / Support | `whyUs` |
+| FAQ questions & answers | `faqs` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To show an email address in the footer, fill in `site.email` — it's hidden
+automatically while empty.
 
-## Deploy on Vercel
+After attaching a custom domain, update `site.url` (it drives SEO metadata,
+the sitemap and robots.txt).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Running locally
+
+```bash
+npm install     # first time only
+npm run dev     # http://localhost:3000
+npm run build   # production build — run before deploying
+npm run lint
+```
+
+## Deploying an update
+
+```bash
+npx vercel --prod
+```
+
+Edit, run that command, live in ~30 seconds.
+
+---
+
+## Attaching a custom domain
+
+1. Buy a domain (GoDaddy, Namecheap, Hostinger — `.in` domains are cheap).
+2. In the [Vercel dashboard](https://vercel.com/dashboard) → your project →
+   **Settings** → **Domains** → **Add**, enter the domain.
+3. Vercel shows you the DNS records to add. In your registrar's DNS panel:
+   - `A` record, name `@` → `76.76.21.21`
+   - `CNAME` record, name `www` → `cname.vercel-dns.com`
+4. Wait a few minutes. HTTPS is issued automatically and free.
+5. Update `site.url` in `src/config/site.ts` and redeploy.
+
+---
+
+## Structure
+
+```
+brand/                  original business-card artwork (source of truth)
+public/                 logo.png, mark.png, icon.png, og.jpg, favicon.svg
+src/
+├─ app/
+│  ├─ layout.tsx      fonts, SEO metadata, JSON-LD schema
+│  ├─ page.tsx        section order
+│  ├─ globals.css     design tokens (colours, fonts, animations)
+│  ├─ robots.ts       robots.txt
+│  └─ sitemap.ts      sitemap.xml
+├─ config/site.ts     ← ALL CONTENT LIVES HERE
+└─ components/
+   ├─ Header, Hero, Services, Work, Process, WhyUs, FAQ, CTA, Footer
+   ├─ Logo.tsx
+   └─ ui/             Section, Reveal, WhatsAppButton, Icons
+```
+
+## Mobile
+
+The site is mobile-first. Every section collapses to a single column on phones,
+the header switches to a hamburger menu below 1024px, and all tap targets are
+at least 40px. Breakpoints used: `sm` 640px, `md` 768px, `lg` 1024px, `xl` 1280px.
+
+## Brand colours
+
+Defined in `src/app/globals.css` under `@theme`:
+
+| Token | Value | Used for |
+|---|---|---|
+| `brand` | `#EA580C` | buttons, links, icons |
+| `brand-hover` | `#F97316` | hover states |
+| `brand-tint` | `#FFF1E5` | soft icon backgrounds |
+| `canvas` | `#FFFDFB` | page background |
+| `canvas-alt` | `#FFF7ED` | alternating sections |
+| `ink` | `#0F172A` | headings |
+| `body` | `#475569` | body text |
