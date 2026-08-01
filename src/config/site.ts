@@ -49,7 +49,9 @@ export const site = {
   promise: "Smart solutions. Stronger businesses.",
   description:
     "Orange Solutions builds AI voice agents, chatbots, booking systems, CRM & ERP, websites and automation that help businesses run smarter. Based in Junagadh, Gujarat.",
-  url: "https://orange-solutions.vercel.app",
+  // Live deployment. Update this when a custom domain is attached — it drives
+  // the canonical link, Open Graph tags, sitemap.xml and robots.txt.
+  url: "https://orange-sepia.vercel.app",
   location: "Junagadh, Gujarat",
   email: "", // optional — leave empty to hide the email link
 } as const;
